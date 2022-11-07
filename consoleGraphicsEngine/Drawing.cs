@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using consoleGraphicsEngine;
 using static consoleGraphicsEngine.Structs;
 using static consoleGraphicsEngine.Drawing;
-
+using System.Drawing;
 
 namespace consoleGraphicsEngine
 {
@@ -116,6 +116,7 @@ namespace consoleGraphicsEngine
         //draws a rectangle
         public static void drawRect(Coord pos1, Coord pos2, byte colour, char fillChar)
         {
+            //top line
             drawLine(colour, new Coord(pos1.X, pos1.Y), new Coord(pos2.X, pos1.Y), (char)0x00);
 
             //double left lines
@@ -130,5 +131,43 @@ namespace consoleGraphicsEngine
             drawLine(colour, new Coord(pos1.X, pos2.Y), new Coord(pos2.X, pos2.Y), (char)0x00);
         }
 
+        static byte getClosestColourByRGB(int R, int G, int B)
+        {
+            winColour current = winColours.BLACK;
+            int currentVariation = Int32.MaxValue;
+            foreach(winColour colour in winColours.LIST)
+            {
+                int variation = (int)Math.Sqrt((R - colour.R) * (R - colour.R) + (G - colour.G) * (G - colour.G) + (B - colour.B) * (B - colour.B));
+                if(variation < currentVariation)
+                {
+                    current = colour;
+                    currentVariation = variation;
+                }
+            }
+            return current.Code;
+        }
+
+        public static void drawImage(SmallRect boundry, Bitmap image)
+        {
+
+            for (int py = boundry.Top; py <= boundry.Bottom; py++)
+            {
+                for (int px = boundry.Left; px <= boundry.Right; px++)
+                {
+                    if(px < image.Width && py < image.Height) {
+
+                        Color pxColor = image.GetPixel(px, py);
+                        byte closestWincolour = getClosestColourByRGB(pxColor.R, pxColor.G, pxColor.B);
+
+                        int pxPositionInBuffer = (py * Globals.DISP_X) + px;
+                        if (pxPositionInBuffer >= Globals.buf.Length) { continue; }
+
+                        Globals.buf[pxPositionInBuffer].Attributes = mergeColours(closestWincolour, closestWincolour);
+                        Globals.buf[pxPositionInBuffer].UnicodeChar = (short)'▄';
+                    }
+
+                }
+            }
+        }
     }
 }

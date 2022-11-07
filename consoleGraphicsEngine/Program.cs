@@ -6,6 +6,7 @@ using Microsoft.Win32.SafeHandles;
 using consoleGraphicsEngine;
 using static consoleGraphicsEngine.Structs;
 using static consoleGraphicsEngine.Drawing;
+using System.Drawing;
 
 namespace consoleGameEngine
 {
@@ -65,6 +66,9 @@ namespace consoleGameEngine
 
             int frameNum = 0;
             byte borderColour = Colours.WHITE;
+            Random r = new Random();
+
+            Bitmap test = (Bitmap)Image.FromFile("testBitmap.jpg");
 
             while (true)
             {
@@ -84,12 +88,15 @@ namespace consoleGameEngine
                     clearDisplay(Colours.BLACK);
                     drawRect(new Coord(0, 0), new Coord(Globals.DISP_X - 1, Globals.DISP_Y - 1), borderColour, (char)0x00);
                     drawString("Template", new Coord(2, 0), Colours.BLACK);
+                    drawString(String.Format("F: {0}", frameNum++), new Coord(Globals.DISP_X - 2, 0), Colours.BLACK, stAlignment.RIGHT);
+
+                    drawImage(new SmallRect(2, 1, (short)(Globals.DISP_X - 3), (short)(Globals.DISP_Y - 2)), test);
 
                     //update the display
                     update();
 
-                    //run at a target of 20fps
-                    Thread.Sleep(50);
+                    //run at a target of 60fps
+                    Thread.Sleep(16);
                 }
                 else
                 {

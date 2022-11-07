@@ -63,6 +63,15 @@ namespace consoleGraphicsEngine
             public short Top;
             public short Right;
             public short Bottom;
+
+            public SmallRect(short Left, short Top, short Right, short Bottom)
+            {
+                this.Left = Left;
+                this.Top = Top;
+                this.Right = Right;
+                this.Bottom = Bottom;
+            }
+
         }
 
         //struct for string alignment settings
@@ -71,6 +80,22 @@ namespace consoleGraphicsEngine
             LEFT,
             CENTER,
             RIGHT
+        }
+    }
+
+    public struct winColour
+    {
+        public int R;
+        public int G;
+        public int B;
+        public byte Code;
+
+        public winColour(int R, int G, int B, byte Code)
+        {
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            this.Code = Code;
         }
     }
 
@@ -93,6 +118,30 @@ namespace consoleGraphicsEngine
         public static byte LPURPLE = 0xD0;
         public static byte LYELLOW = 0xE0;
         public static byte LWHITE = 0xF0;
+    }
+
+    public static class winColours
+    {
+        //basic windows colours
+        public static winColour BLACK = new winColour( 0x0c, 0x0c, 0x0c, Colours.BLACK );
+        public static winColour BLUE = new winColour( 0x00, 0x37, 0xda, Colours.BLUE);
+        public static winColour GREEN = new winColour( 0x13, 0xa1, 0x0e, Colours.GREEN);
+        public static winColour AQUA = new winColour( 0x3a, 0x96, 0xdd, Colours.AQUA);
+        public static winColour RED = new winColour( 0xc5, 0x0f, 0x1f, Colours.RED);
+        public static winColour PURPLE = new winColour( 0x88, 0x17, 0x98, Colours.PURPLE);
+        public static winColour YELLOW = new winColour( 0xc1, 0x9c, 0x00, Colours.YELLOW);
+        public static winColour WHITE = new winColour( 0xcc, 0xcc, 0xcc, Colours.WHITE);
+        public static winColour GRAY = new winColour( 0x76, 0x76, 0x76, Colours.GRAY);
+        public static winColour LBLUE = new winColour( 0x3b, 0x78, 0xff, Colours.LBLUE);
+        public static winColour LGREEN = new winColour( 0x16, 0xc6, 0x0c, Colours.LGREEN);
+        public static winColour LAQUA = new winColour( 0x61, 0xd6, 0xd6, Colours.LAQUA);
+        public static winColour LRED = new winColour( 0xe7, 0x48, 0x56, Colours.LRED);
+        public static winColour LPURPLE = new winColour( 0xb4, 0x00, 0x9e, Colours.LPURPLE);
+        public static winColour LYELLOW = new winColour( 0xf9, 0xf1, 0xa5, Colours.LYELLOW);
+        public static winColour LWHITE = new winColour( 0xf2, 0xf2, 0xf2, Colours.LWHITE);
+
+        public static readonly winColour[] LIST = { BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY, LBLUE, LGREEN, LAQUA, LRED, LPURPLE, LYELLOW, LWHITE };
+        public static readonly winColour[] LIST_NOPRIM = { BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, LBLUE, LGREEN, LAQUA, LRED, LPURPLE, LYELLOW };
     }
 
     public static class Keys
