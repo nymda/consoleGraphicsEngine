@@ -17,12 +17,14 @@ namespace consoleGraphicsEngine
         //sets the default window size
         public static short DISP_X = 80;
         public static short DISP_Y = 20;
+        public static short DISP_Y_GR = 40;
 
-        public static CharInfo[] buf = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+        public static CharInfo[] primaryBuffer = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+        public static CharInfo[] textBuffer = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+        public static byte[] graphicsBuffer = new byte[Globals.DISP_X * (Globals.DISP_Y * 2)];
+
         public static SmallRect rect = new SmallRect() { Left = 0, Top = 0, Right = Globals.DISP_X, Bottom = Globals.DISP_Y };
-
         public static int lastSceneChangeFrame = 0;
-
         public static SafeFileHandle? hndl;
     }
 

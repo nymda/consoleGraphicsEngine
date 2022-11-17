@@ -44,7 +44,7 @@ namespace consoleGameEngine
         //draws whatevers in the display buffer to the display
         public static bool update()
         {
-            return WriteConsoleOutputW(Globals.hndl, Globals.buf, new Coord() { X = Globals.DISP_X, Y = Globals.DISP_Y }, new Coord() { X = 0, Y = 0 }, ref Globals.rect);
+            return WriteConsoleOutputW(Globals.hndl, Globals.primaryBuffer, new Coord() { X = Globals.DISP_X, Y = Globals.DISP_Y }, new Coord() { X = 0, Y = 0 }, ref Globals.rect);
         }
 
         static void logSceneChange(int frame)
@@ -68,7 +68,7 @@ namespace consoleGameEngine
             byte borderColour = Colours.WHITE;
             Random r = new Random();
 
-            Bitmap test = (Bitmap)Image.FromFile("testBitmap.jpg");
+            //Bitmap test = (Bitmap)Image.FromFile("testBitmap.jpg");
 
             while (true)
             {
@@ -79,20 +79,26 @@ namespace consoleGameEngine
                     {
                         Globals.DISP_X = (short)Console.WindowWidth;
                         Globals.DISP_Y = (short)Console.WindowHeight;
-                        Globals.buf = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+                        Globals.DISP_Y_GR = (short)(Globals.DISP_Y * 2);
+                        Globals.primaryBuffer = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+
+                        Globals.primaryBuffer = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+                        Globals.textBuffer = new CharInfo[Globals.DISP_X * Globals.DISP_Y];
+                        Globals.graphicsBuffer = new byte[Globals.DISP_X * Globals.DISP_Y_GR];
+                        
                         Globals.rect = new SmallRect() { Left = 0, Top = 0, Right = Globals.DISP_X, Bottom = Globals.DISP_Y };
                         Console.CursorVisible = false;
                         Console.Clear();
                     }
 
                     clearDisplay(Colours.BLACK);
-                    drawRect(new Coord(0, 0), new Coord(Globals.DISP_X - 1, Globals.DISP_Y - 1), borderColour, (char)0x00);
-                    drawString("Template", new Coord(2, 0), Colours.BLACK);
-                    drawString(String.Format("F: {0}", frameNum++), new Coord(Globals.DISP_X - 2, 0), Colours.BLACK, stAlignment.RIGHT);
-
-                    drawImage(new SmallRect(2, 1, (short)(Globals.DISP_X - 3), (short)(Globals.DISP_Y - 2)), test);
+                    drawRect(new Coord(0, 0), new Coord(Globals.DISP_X - 1, (Globals.DISP_Y * 2) - 1), borderColour, (char)0x00);
+                    drawString(" Console Graphics Engine ", new Coord(2, 0), mergeColours(Colours.BLACK, Colours.WHITE));
+                    drawString(String.Format(" F: {0} ", frameNum++), new Coord(Globals.DISP_X - 2, 0), mergeColours(Colours.BLACK, Colours.WHITE), stAlignment.RIGHT);
+                    //drawImage(new SmallRect(3, 3, 75, 100), test);
 
                     //update the display
+                    rasterize();
                     update();
 
                     //run at a target of 60fps
