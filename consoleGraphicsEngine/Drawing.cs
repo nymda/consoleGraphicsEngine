@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using consoleGraphicsEngine;
-using static consoleGraphicsEngine.Structs;
-using static consoleGraphicsEngine.Drawing;
+﻿using static consoleGraphicsEngine.Structs;
 using System.Drawing;
 
 namespace consoleGraphicsEngine
